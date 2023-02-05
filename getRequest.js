@@ -14,18 +14,27 @@ const bearerToken = process.env.BEARER_TOKEN;
           Authorization: `Bearer ${bearerToken}`
         }
       });
+      //Retornando o json do response
       const data = await response.json();
-      return data;
+
+      //Retornando o status da requisição
+      const statusResponse = response.status;
+      const result = {
+        responseData: data,
+        responseStatus: statusResponse
+      }
+      return result;
     } catch (error) {
       console.error(error);
     }
   }
 
 makeGetRequest(`${apiUrl}/users`)
-  .then(data => {
-    console.log(data);
+  .then(result => {
+    console.log(result.responseData);
+    console.log(result.responseStatus);
     //Caso queira retornar apenas um dado específico do response, pode realizar um map apontando o campo que deseja
 
-    /*const names = data.data.map(user => user.name);
+    /*const names = result.responseData.data.map(user => user.name);
     console.log(names);*/
   });
